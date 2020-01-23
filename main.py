@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 import smtplib
 from email.mime.text import MIMEText
 import imaplib
 import poplib
-
+import getpass
 
 def utf8(string):
     return str(string, 'utf-8')
@@ -13,7 +15,7 @@ def smtp_protocol():
     print("Enter the Sender's email address")
     from_email = input()
     print("Enter the Sender's password")
-    from_pass = input()
+    from_pass = getpass.getpass()
     server.login(from_email, from_pass)
     print("Enter the receiver's email address:")
     to_email = input()
@@ -36,7 +38,7 @@ def imap_protocol():
     print("Email address to retrieve email")
     imap_user = input()
     print("Enter Password for the above email address:")
-    imap_pass = input()
+    imap_pass = getpass.getpass()
     print("Enter the email id of the user whose latest email you want to read.")
     from_email = input()
     imap = imaplib.IMAP4_SSL(imap_host)
@@ -65,7 +67,7 @@ def pop_protocol():
     print("Email address to retrieve email")
     username = input()
     print("Enter Password for the above email address:")
-    password = input()
+    password = getpass.getpass()
 
     pop = poplib.POP3_SSL(popserver)
 
