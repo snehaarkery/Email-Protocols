@@ -31,6 +31,7 @@ def smtp_protocol():
     server.sendmail(from_email, to_email, text)
     print("Email Sent")
     server.quit()
+    main_protocol()
 
 
 def imap_protocol():
@@ -60,6 +61,7 @@ def imap_protocol():
                 print(data2)
             except UnicodeEncodeError as e:
                 pass
+    main_protocol()
 
 
 def pop_protocol():
@@ -86,18 +88,22 @@ def pop_protocol():
     print(utf8(truncated[1]))
     print(utf8(truncated[2]))
     print("Body: ", utf8(truncated[len(truncated) - 1]))
+    main_protocol()
 
 
 def main_protocol():
     print("Please enter the protocol to be executed: ")
     print("smtp")
     print("imap")
-    print("pop\n")
+    print("pop")
+    print("exit\n")
     protocol = input()
     if protocol == "smtp":
         smtp_protocol()
     elif protocol == "imap":
         imap_protocol()
+    elif protocol == "exit":
+        print("Exiting...")
     elif protocol == "pop":
         pop_protocol()
     else:
