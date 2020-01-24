@@ -10,12 +10,8 @@ def utf8(string):
     return str(string, 'utf-8')
 
 
-def smtp_protocol():
+def smtp_protocol(from_email,from_pass):
     server = smtplib.SMTP_SSL('smtp.mail.yahoo.com', 465)
-    print("Enter the Sender's email address")
-    from_email = input()
-    print("Enter the Sender's password")
-    from_pass = getpass.getpass()
     server.login(from_email, from_pass)
     print("Enter the receiver's email address:")
     to_email = input()
@@ -31,15 +27,11 @@ def smtp_protocol():
     server.sendmail(from_email, to_email, text)
     print("Email Sent")
     server.quit()
-    main_protocol()
+    main_protocol(from_email,from_pass)
 
 
-def imap_protocol():
+def imap_protocol(imap_user,imap_pass):
     imap_host = 'imap.mail.yahoo.com'
-    print("Email address to retrieve email")
-    imap_user = input()
-    print("Enter Password for the above email address:")
-    imap_pass = getpass.getpass()
     print("Enter the email id of the user whose latest email you want to read.")
     from_email = input()
     imap = imaplib.IMAP4_SSL(imap_host)
@@ -61,15 +53,11 @@ def imap_protocol():
                 print(data2)
             except UnicodeEncodeError as e:
                 pass
-    main_protocol()
+    main_protocol(imap_user,imap_pass)
 
 
-def pop_protocol():
+def pop_protocol(username,password):
     popserver = 'pop.mail.yahoo.com'
-    print("Email address to retrieve email")
-    username = input()
-    print("Enter Password for the above email address:")
-    password = getpass.getpass()
 
     pop = poplib.POP3_SSL(popserver)
 
@@ -88,10 +76,16 @@ def pop_protocol():
     print(utf8(truncated[1]))
     print(utf8(truncated[2]))
     print("Body: ", utf8(truncated[len(truncated) - 1]))
-    main_protocol()
+    main_protocol(username,password)
 
+def login_credentials():
+    print("Enter the email address")
+    from_email = input()
+    print("Enter the password")
+    from_pass = getpass.getpass()
+    main_protocol(from_email,from_pass)
 
-def main_protocol():
+def main_protocol(from_email,from_pass):
     print("Please enter the protocol to be executed: ")
     print("smtp")
     print("imap")
@@ -99,16 +93,16 @@ def main_protocol():
     print("exit\n")
     protocol = input()
     if protocol == "smtp":
-        smtp_protocol()
+        smtp_protocol(from_email,from_pass)
     elif protocol == "imap":
-        imap_protocol()
+        imap_protocol(from_email,from_pass)
     elif protocol == "exit":
         print("Exiting...")
     elif protocol == "pop":
-        pop_protocol()
+        pop_protocol(from_email,from_pass)
     else:
         print("Incorrect input")
 
-
 if __name__ == '__main__':
-    main_protocol()
+    login_credentials()
+
